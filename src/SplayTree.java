@@ -1,2 +1,2 @@
-public class SplayTree<T> extends BinaryTree<T> implements BaseOperations<T> {
+public class SplayTree<T extends Comparable<T>> implements BaseOperations<T> {
 }
