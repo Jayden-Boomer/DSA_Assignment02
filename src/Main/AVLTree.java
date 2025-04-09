@@ -1,3 +1,5 @@
+package Main;
+
 public class AVLTree<T extends Comparable<T>> implements BaseOperations<T> {
 
     protected class AVLNode {
@@ -27,65 +29,93 @@ public class AVLTree<T extends Comparable<T>> implements BaseOperations<T> {
     }
 
     private AVLNode rightRotate(AVLNode parent) {
-        /*
-             parent
-              /                    pivot
-            pivot         -->     /     \
-            /                  child    parent
-          child
-         */
-        AVLNode pivot =  parent.left;
-        AVLNode child =  pivot.right;
+        // pivot is the left child of parent — it will become the new root of the subtree
+        AVLNode pivot = parent.left;
 
-        pivot.right = parent;
-        parent.left = child;
+        // store the right subtree of the pivot
+        AVLNode rightChildOfPivot = pivot.right;
 
-        updateHeight(parent);// = Math.max(height( parent.left), height( parent.right)) + 1;
-        updateHeight(pivot);// = Math.max(height( pivot.left), height( pivot.right)) + 1;
+        // Perform rotation
+        pivot.right = parent;               // parent becomes the right child of pivot
+        parent.left = rightChildOfPivot;    // the right child of pivot becomes the left child of parent
 
+        //update the heights of the nodes
+        updateHeight(parent);
+        updateHeight(pivot);
+
+        // Return new root
         return pivot;
     }
 
     private AVLNode leftRotate(AVLNode parent) {
-        AVLNode pivot =  parent.right;
-        AVLNode child =  pivot.left;
+        // pivot is the right child of parent — it will become the new root of the subtree
+        AVLNode pivot = parent.right;
 
-        pivot.left = parent;
-        parent.right = child;
+        // store the left subtree of the pivot
+        AVLNode leftChildOfPivot = pivot.left;
 
-        updateHeight(parent);// = Math.max(height( parent.left), height( parent.right)) + 1;
-        updateHeight(pivot);// = Math.max(height( pivot.left), height( pivot.right)) + 1;
+        // Perform rotation
+        pivot.left = parent;                // parent becomes the left child of pivot
+        parent.right = leftChildOfPivot;    // the left child of pivot becomes the right child of parent
 
+        //update the heights of the nodes
+        updateHeight(parent);
+        updateHeight(pivot);
+
+        // Return new root
         return pivot;
     }
 
     private AVLNode balance(AVLNode node) {
         int balanceFactor = balanceFactor(node);
 
-        // Left Heavy (Right Rotation)
-        if (balanceFactor > 1 && balanceFactor(node.left) >= 0) {
+        if (balanceFactor > 1) { // The given node is left-heavy
+            // left-rotate the left child if it is also left-heavy
+            if(balanceFactor(node.left) < 0)
+                node.left = leftRotate(node.left);
+
+            // right rotate the given node
             return rightRotate(node);
-        }
 
-        // Left-Right Case (Left Rotate Left Child, then Right Rotate)
-        if (balanceFactor > 1 && balanceFactor(node.left) < 0) {
-            node.left = leftRotate(node.left);
-            return rightRotate(node);
-        }
+        } else if (balanceFactor < -1) { // The given node is right-heavy
+            // right-rotate the right child if it is also right-heavy
+            if(balanceFactor(node.right) > 0)
+                node.right = rightRotate(node.right);
 
-        // Right Heavy (Left Rotation)
-        if (balanceFactor < -1 && balanceFactor(node.right) <= 0) {
-            return leftRotate(node);
-        }
-
-        // Right-Left Case (Right Rotate Right Child, then Left Rotate)
-        if (balanceFactor < -1 && balanceFactor(node.right) > 0) {
-            node.right = rightRotate(node.right);
+            // right rotate the given node
             return leftRotate(node);
         }
 
         return node; // Return the balanced node
     }
+
+//    private AVLNode balance(AVLNode node) {
+//        int balanceFactor = balanceFactor(node);
+//
+//        // Left Heavy (Right Rotation)
+//        if (balanceFactor > 1 && balanceFactor(node.left) >= 0) {
+//            return rightRotate(node);
+//        }
+//
+//        // Left-Right Case (Left Rotate Left Child, then Right Rotate)
+//        if (balanceFactor > 1 && balanceFactor(node.left) < 0) {
+//            node.left = leftRotate(node.left);
+//            return rightRotate(node);
+//        }
+//
+//        // Right Heavy (Left Rotation)
+//        if (balanceFactor < -1 && balanceFactor(node.right) <= 0) {
+//            return leftRotate(node);
+//        }
+//
+//        // Right-Left Case (Right Rotate Right Child, then Left Rotate)
+//        if (balanceFactor < -1 && balanceFactor(node.right) > 0) {
+//            node.right = rightRotate(node.right);
+//            return leftRotate(node);
+//        }
+//
+//        return node; // Return the balanced node
+//    }
 
 
     private AVLNode insertNode(AVLNode currentNode, T key) {
@@ -128,7 +158,7 @@ public class AVLTree<T extends Comparable<T>> implements BaseOperations<T> {
 //        return currentNode;
     }
 
-    private AVLNode minValueNode(AVLNode node) {
+    private AVLNode getMinChild(AVLNode node) {
         AVLNode current = node;
         while (current.left != null) {
             current =  current.left;
@@ -156,7 +186,7 @@ public class AVLTree<T extends Comparable<T>> implements BaseOperations<T> {
                     currentNode = temp;
                 }
             } else {
-                AVLNode temp = minValueNode( currentNode.right);
+                AVLNode temp = getMinChild( currentNode.right);
                 currentNode.data = temp.data;
                 currentNode.right = deleteNode( currentNode.right, temp.data);
             }
@@ -210,8 +240,9 @@ public class AVLTree<T extends Comparable<T>> implements BaseOperations<T> {
     }
 
     @Override
-    public void insert(T element) {
+    public boolean insert(T element) {
         root = insertNode(root, element);
+        return root != null;
     }
 
     @Override
@@ -228,6 +259,6 @@ public class AVLTree<T extends Comparable<T>> implements BaseOperations<T> {
 
     public void printTree() {
         inorderTraversal(root);
-        System.out.println();
+//        System.out.println();
     }
 }

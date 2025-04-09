@@ -5,10 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="061e1f16-fd2b-4df8-8806-72001b3c3204" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/Main/BinaryTree.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Main/HashTable.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Main/SplayTree.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/UnitTests/TestAVLTree.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/UnitTests/TestHashTable.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/UnitTests/TestSplayTree.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/AVLTree.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/AVLTree.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BinaryTree.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/SplayTree.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/SplayTree.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DSA_Assignment02.iml" beforeDir="false" afterPath="$PROJECT_DIR$/DSA_Assignment02.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/AVLTree.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/AVLTree.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BaseOperations.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/BaseOperations.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Benchmarker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/Benchmarker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/HashTable.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/SplayTree.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,26 +52,107 @@
   &quot;associatedIndex&quot;: 5
 }</component>
   <component name="ProjectId" id="2v9BeEijlRPTC22k4wZ8syxL9hj" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/jaboo/OneDrive/Documents/GitHub/UTD/CS3345 - DSA/DSA_Assignment02&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;onboarding.tips.debug.path&quot;: &quot;C:/Users/jaboo/OneDrive/Documents/GitHub/UTD/CS3345 - DSA/DSA_Assignment02/DSA_Assignment02/src/Main.java&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Downloaded.Files.Path.Enabled": "false",
+    "JUnit.TestAVLTree.executor": "Run",
+    "JUnit.TestAVLTree.testInsertionMaintainsBSTProperty.executor": "Run",
+    "JUnit.TestHashTable.executor": "Run",
+    "JUnit.TestSplayTree.executor": "Run",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/jaboo/OneDrive/Documents/GitHub/UTD/CS3345 - DSA/DSA_Assignment01",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "onboarding.tips.debug.path": "C:/Users/jaboo/OneDrive/Documents/GitHub/UTD/CS3345 - DSA/DSA_Assignment02/DSA_Assignment02/src/Main.java",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
+  <component name="RunManager" selected="JUnit.TestHashTable">
+    <configuration name="TestAVLTree" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="DSA_Assignment02" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="UnitTests.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="UnitTests" />
+      <option name="MAIN_CLASS_NAME" value="UnitTests.TestAVLTree" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestAVLTree.testInsertionMaintainsBSTProperty" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="DSA_Assignment02" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="UnitTests.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="UnitTests" />
+      <option name="MAIN_CLASS_NAME" value="UnitTests.TestAVLTree" />
+      <option name="METHOD_NAME" value="testInsertionMaintainsBSTProperty" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestHashTable" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="DSA_Assignment02" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="UnitTests.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="UnitTests" />
+      <option name="MAIN_CLASS_NAME" value="UnitTests.TestHashTable" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestSplayTree" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="DSA_Assignment02" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="UnitTests.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="UnitTests" />
+      <option name="MAIN_CLASS_NAME" value="UnitTests.TestSplayTree" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.TestHashTable" />
+        <item itemvalue="JUnit.TestSplayTree" />
+        <item itemvalue="JUnit.TestAVLTree" />
+        <item itemvalue="JUnit.TestAVLTree.testInsertionMaintainsBSTProperty" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -80,7 +171,10 @@
       <updated>1743547505999</updated>
       <workItem from="1743547507064" duration="1052000" />
       <workItem from="1743548786203" duration="2511000" />
-      <workItem from="1743719382345" duration="2131000" />
+      <workItem from="1743719382345" duration="3686000" />
+      <workItem from="1744069982556" duration="2000" />
+      <workItem from="1744138040476" duration="11498000" />
+      <workItem from="1744206005934" duration="26628000" />
     </task>
     <servers />
   </component>

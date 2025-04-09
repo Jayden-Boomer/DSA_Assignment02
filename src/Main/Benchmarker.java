@@ -1,3 +1,5 @@
+package Main;
+
 public class Benchmarker<T> {
     public static final int SMALL_N  = 1_000;
     public static final int MEDIUM_N = 10_000;
@@ -10,7 +12,7 @@ public class Benchmarker<T> {
     }
 
     private long benchmarkFunction(int N) {
-        long time;
+        long time = 0;
         for (int i = 0; i < SMALL_N; i++) {
 
         }
