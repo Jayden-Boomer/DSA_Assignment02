@@ -1,9 +1,13 @@
 package Main;
 
+import java.util.function.Consumer;
+import java.util.function.Function;
+
 public class Benchmarker<T> {
     public static final int SMALL_N  = 1_000;
     public static final int MEDIUM_N = 10_000;
     public static final int LARGE_N  = 100_000;
+
 
     BaseOperations<T> benchmarkee;
 
@@ -11,34 +15,34 @@ public class Benchmarker<T> {
         this.benchmarkee = benchmarkee;
     }
 
-    private long benchmarkFunction(int N) {
-        long time = 0;
-        for (int i = 0; i < SMALL_N; i++) {
-
+    private long benchmarkFunction(T[] values, Consumer<T> fn) {
+        long endTime, startTime = System.nanoTime();
+        for (T value : values) {
+            fn.accept(value);
         }
+        endTime = System.nanoTime();
 
-
-
-        return time;
+        return endTime - startTime;
     }
 
-
-
-    public long[] benchmarkInsert() {
-        long[] times = new long[3];
-
+    private long[] benchmarkFunction(T[][] valueArrays, Consumer<T> fn) {
+        long[] times = new long[valueArrays.length];
+        for (T[] valueArray : valueArrays) {
+            benchmarkFunction(valueArray, fn);
+        }
         return times;
     }
 
-    public long[] benchmarkDelete() {
-        long[] times = new long[3];
 
-        return times;
+    public long[] benchmarkInsert(T[][] values) {
+        return benchmarkFunction(values, (T t) -> benchmarkee.insert(t));
     }
 
-    public long[] benchmarkSearch() {
-        long[] times = new long[3];
+    public long[] benchmarkDelete(T[][] values) {
+        return benchmarkFunction(values, (T t) -> benchmarkee.delete(t));
+    }
 
-        return times;
+    public long[] benchmarkSearch(T[][] values) {
+        return benchmarkFunction(values, (T t) -> benchmarkee.search(t));
     }
 }
