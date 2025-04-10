@@ -1,123 +1,3 @@
-//package Main;
-//
-//import java.util.ArrayList;
-//import java.util.LinkedList;
-//
-//public class HashTable<T> implements BaseOperations<T>{
-//    public enum CollisionBehavior {
-//        Chaining,
-//        QuadraticProbing,
-//        Abort
-//    }
-//
-//    private static final int INITIAL_CAPACITY = 16;
-//    private ArrayList<LinkedList<T>> table;
-//    private CollisionBehavior collisionBehavior;
-//
-//    public HashTable(CollisionBehavior collisionBehavior) {
-//        this.collisionBehavior = collisionBehavior;
-//        table = new ArrayList<>(INITIAL_CAPACITY);
-//        for (int i = 0; i < INITIAL_CAPACITY; i++) {
-//            table.add(new LinkedList<>());
-//        }
-//    }
-//
-//    private int hash(T key) {
-//        return Math.abs(key.hashCode()) % table.size();
-//    }
-//
-//    // Probing function to find an available index using quadratic probing
-//    private int probe(T key, boolean forInsert) {
-//        int index = hash(key); // Calculate initial index using hash function
-//        int i = 0; // Initialize the probe attempt counter
-//        int firstDeletedSlot = -1; // Keep track of the first deleted slot (for reuse)
-//
-//        while (i < table.length) { // Loop over the table to find a spot
-//            int newIndex = (index + c1 * i + c2 * i * i) % table.length; // Quadratic probing formula
-//
-//            Entry<K, T> entry = table[newIndex];
-//
-//            if (entry == null) {
-//                return (forInsert && firstDeletedSlot != -1) ? firstDeletedSlot : newIndex; // If spot is empty, return it
-//            }
-//
-//            // If we find a deleted slot and we're inserting, save it for later reuse
-//            if (entry.isDeleted && forInsert) {
-//                if (firstDeletedSlot == -1) firstDeletedSlot = newIndex;
-//            }
-//
-//            // If the key is found, return the index
-//            if (!entry.isDeleted && Objects.equals(entry.key, key)) {
-//                return newIndex;
-//            }
-//
-//            i++; // Increment the probe counter and try the next slot
-//        }
-//
-//        return -1; // Return -1 if no available slot was found (table is full)
-//    }
-//
-//    private void handleCollision(LinkedList<T> bucket, T element) {
-//        switch (collisionBehavior) {
-//            case Chaining:
-//                if (!bucket.contains(element))
-//                    bucket.add(element);
-//                break;
-//            case QuadraticProbing:
-//
-//            case Abort: default: break;
-//        }
-//    }
-//
-//    @Override
-//    public void insert(T element) {
-//        int index = hash(element);
-//
-//        LinkedList<T> bucket = table.get(index);
-//
-//        if(!bucket.isEmpty())
-//            handleCollision(bucket, element);
-//        else
-//            bucket.add(element);
-//    }
-//
-//    @Override
-//    public T delete(T element) {
-//        int index = hash(element);
-//        LinkedList<T> bucket = table.get(index);
-//
-//        if (bucket.remove(element)) {
-//            return element;
-//        }
-//        return null;
-//    }
-//
-//    @Override
-//    public T search(T element) {
-//        int index = hash(element);
-//        LinkedList<T> bucket = table.get(index);
-//
-//        for (T item : bucket) {
-//            if (item.equals(element)) {
-//                return item;
-//            }
-//        }
-//
-//        return null;
-//    }
-//
-//    public void printTable() {
-//        for (int i = 0; i < table.size(); i++) {
-//            System.out.print("[" + i + "]: ");
-//            for (T item : table.get(i)) {
-//                System.out.print(item + " ");
-//            }
-//            System.out.println();
-//        }
-//    }
-//}
-//
-
 package Main;
 
 import java.util.LinkedList;
@@ -139,13 +19,11 @@ public class HashTable<K, V> implements BaseOperations<V> {
             this.isDeleted = false;
         }
 
-//        public boolean isDeleted() {
-//            return this.key == null && this.value == null;
-//        }
-//
-//        public void setDeleted() {
-//            this.key = null;
-//        }
+
+        public void setDeleted() {
+            this.value = null;
+            this.isDeleted = true;
+        }
     }
 
     private static class Bucket<K, V> {//extends LinkedList<Entry<K, V>> {
@@ -188,7 +66,7 @@ public class HashTable<K, V> implements BaseOperations<V> {
             if (index == -1) return new Entry<>(null, null);
 
             Entry<K, V> toRemove = entries.get(index);
-            toRemove.isDeleted = true;
+            toRemove.setDeleted();
             return toRemove;
         }
 
@@ -200,8 +78,15 @@ public class HashTable<K, V> implements BaseOperations<V> {
             }
         }
 
+        public Entry<K, V> get(int index) {
+            try {
+                return entries.get(index);
+            } catch (IndexOutOfBoundsException e) {
+                return new Entry<>(null, null);
+            }
+        }
+
         public void add(Entry<K, V> entry) { entries.add(entry); }
-        public Entry<K, V> get(int index) { return entries.get(index); }
         public boolean isEmpty() { return entries.isEmpty(); }
         public void updateEntry(K key, V newVal) { entries.get(indexOf(key)).value = newVal; }
     }
@@ -249,7 +134,6 @@ public class HashTable<K, V> implements BaseOperations<V> {
         return Math.abs(key.hashCode()) % table.length; // Modulo to ensure it's within table bounds
     }
 
-
     // Probing function to find an available index using quadratic probing
     private int quadraticProbe(K key, boolean forInsert) {
         int index = hash(key); // Calculate initial index using hash function
@@ -263,7 +147,8 @@ public class HashTable<K, V> implements BaseOperations<V> {
             newIndex = (index + c1 * i + c2 * i * i) % table.length; // Quadratic probing formula
             entry = table[newIndex].getFirst();
 
-
+            System.out.println("Probing at i=" + i + ", index=" + newIndex);
+            System.out.println("Found key: " + (entry == null ? "null" : entry.key));
             // If spot is empty, return it
             if (entry == null) return (forInsert && firstDeletedSlot != -1) ? firstDeletedSlot : newIndex;
 
@@ -282,57 +167,6 @@ public class HashTable<K, V> implements BaseOperations<V> {
         return -1; // Return -1 if no available slot was found (table is full)
     }
 
-/** handle collision functions
-    private void handleInsertCollision(Bucket<K, V> bucket, Entry<K, V> entry) {
-        int index;
-        switch (collisionBehavior) {
-            case Chaining:
-                if (!bucket.contains(entry.key)) { // no entry with the given key exists in the bucket
-                    bucket.add(entry);
-                    break;
-                }
-
-                // entry with the given key exists in the bucket, update the corresponding value to the value of the given entry
-                index = bucket.indexOf(entry.key);
-                bucket.get(index).value = entry.value;
-                break;
-            case QuadraticProbing:
-                index = quadraticProbe(entry.key, true); // Try to find an index using quadratic probing
-
-                if (index == -1) throw new RuntimeException("HashTable is full");
-
-                // If the index is empty or marked as deleted, insert the new element
-                if (table[index].getFirst() == null) { //|| table[index].getFirst().isDeleted) {
-                    table[index].add(entry); // Insert the new entry
-                    size++; // Increment the size of the table
-                    break;
-                } else {
-                    table[index].getFirst().value = element; // Update the value if the key already exists
-                }
-            case Abort: default: break;
-        }
-    }
-
-    private V handleDeleteCollision(Bucket<K, V> bucket, Entry<K, V> entry) {
-        switch (collisionBehavior) {
-            case Chaining:
-                for (Entry<K, V> nthEntry : bucket) {
-                    if (nthEntry.key.equals(entry.key)) {
-                        bucket.remove(nthEntry);
-                        size--;
-                        return nthEntry.value;
-                    }
-                }
-                break;
-            case QuadraticProbing:
-
-            case Abort: default: break;
-        }
-
-        return entry.value;
-    }
-*/
-
     // enum for naming the return values
     enum RetVals {
         NO_COLLISIONS,
@@ -349,7 +183,7 @@ public class HashTable<K, V> implements BaseOperations<V> {
          * */
         public int andDo(Supplier<Integer> something) { return val; }
         public int andDo(int something) { return val; }
-        public int andDo(Runnable something) { return val; }
+        public int andDo(Runnable something) { something.run(); return val; }
 
     }
 
@@ -361,18 +195,11 @@ public class HashTable<K, V> implements BaseOperations<V> {
 
     private V simpleRemove(Bucket<K, V> bucket, K keyToRemove) {
         size--;
-        return bucket.remove(keyToRemove).value;
+        V removedValue = bucket.get(bucket.indexOf(keyToRemove)).value;
+        bucket.remove(keyToRemove);
+        return removedValue;
     }
 
-    /**
-     *
-     *
-     * @param key
-     * @param value
-     * @return 0 = added with no collisions
-     * @return 1 = added to a chain
-     * @return 2 = updated a value
-     */
     public int put(K key, V value) {
 
         // Resize the table if it exceeds the load factor threshold
@@ -414,15 +241,16 @@ public class HashTable<K, V> implements BaseOperations<V> {
             case Abort: default: return RetVals.NO_COLLISIONS.val;
         }
 
+
         // The entry with the given key exists in the bucket, set its corresponding value to the new value
         Bucket<K, V> finalBucket = bucket; //"Variable used in lambda expression should be final or effectively final" so there's this temp variable
+
         return RetVals.UPDATED_A_VALUE.andDo( () -> finalBucket.updateEntry(key, value) );
     }
 
     public V remove(K keyToRemove) {
         int index = hash(keyToRemove);
         Bucket<K, V> bucket = table[index];
-//        Entry<K, V> toRemove = new Entry<>(keyToRemove, null);
         Entry<K, V> firstEntry;
         switch (collisionBehavior) {
             case Chaining:
@@ -438,18 +266,9 @@ public class HashTable<K, V> implements BaseOperations<V> {
                 if (firstEntry == null || firstEntry.isDeleted) return null;
 
                 return simpleRemove(bucket, keyToRemove);
-                // If the key is found and is not deleted, mark it as deleted
-//                firstEntry.isDeleted = true; // Mark the entry as deleted (lazy deletion)
-//                size--; // Decrement the size of the table
-//                return firstEntry.value; // Return the deleted value
 
             case Abort: default: return null;
         }
-
-//        if(!bucket.isEmpty())
-//            return handleDeleteCollision(bucket, bucket.getFirst());
-
-//        return null;
     }
 
     public V find(K key) {
@@ -463,14 +282,19 @@ public class HashTable<K, V> implements BaseOperations<V> {
                 index = quadraticProbe(key, false);
                 if (index == -1) return null;
 
+                bucket = table[index];
                 firstEntry = bucket.getFirst();
-                if(firstEntry == null || firstEntry.isDeleted) return null;
+                if (firstEntry == null || firstEntry.isDeleted) return null;
 
                 return firstEntry.value;
 
-            case Abort: default: return null;
+            case Abort:
+            default:
+                return null;
         }
     }
+
+
 
     @Override
     public boolean insert(V element) {
@@ -485,8 +309,8 @@ public class HashTable<K, V> implements BaseOperations<V> {
     }
 
     @Override
-    public V search(V element) {
-        K key = valueToKeyConverter.apply(element); // Extract the key from the element
+    public V search(V value) {
+        K key = valueToKeyConverter.apply(value); // Extract the key from the element
         return find(key);
     }
 

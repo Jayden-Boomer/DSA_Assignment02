@@ -31,7 +31,10 @@ public class TestHashTable {
     @Test
     public void testDelete_Chaining() {
         chainingTable.insert(5);
+        chainingTable.printTable();
         assertEquals(5, chainingTable.delete(5));
+        chainingTable.printTable();
+
         assertNull(chainingTable.search(5));
     }
 
@@ -46,6 +49,7 @@ public class TestHashTable {
     public void testUpdateValue_Chaining() {
         chainingTable.insert(10);
         chainingTable.put(10, 20);
+
         assertEquals(20, chainingTable.search(10));
     }
 
@@ -70,10 +74,14 @@ public class TestHashTable {
 
     @Test
     public void testCollisions_QuadraticProbing() {
-        probingTable.put(0, 0);
-        probingTable.put(20, 20); // collides with 0
-        probingTable.put(40, 40); // likely collides again
+        probingTable.insert(0);
+        probingTable.printTable();
 
+        probingTable.insert(20); // collides with 0
+        probingTable.printTable();
+
+        probingTable.insert(40); // likely collides again
+        probingTable.printTable();
         assertEquals(0, probingTable.search(0));
         assertEquals(20, probingTable.search(20));
         assertEquals(40, probingTable.search(40));
