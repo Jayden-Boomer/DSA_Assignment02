@@ -9,7 +9,7 @@ public class Benchmarker<T> {
     public static final int LARGE_N  = 100_000;
 
 
-    BaseOperations<T> benchmarkee;
+    private BaseOperations<T> benchmarkee;
 
     public Benchmarker(BaseOperations<T> benchmarkee) {
         this.benchmarkee = benchmarkee;
@@ -25,24 +25,25 @@ public class Benchmarker<T> {
         return endTime - startTime;
     }
 
-    private long[] benchmarkFunction(T[][] valueArrays, Consumer<T> fn) {
-        long[] times = new long[valueArrays.length];
-        for (T[] valueArray : valueArrays) {
-            benchmarkFunction(valueArray, fn);
+    private Long[] benchmarkFunction(T[][] valueArrays, Consumer<T> fn) {
+        Long[] times = new Long[valueArrays.length];
+        for (int i = 0; i < valueArrays.length; i++) {
+            times[i] = benchmarkFunction(valueArrays[i], fn);
         }
+
         return times;
     }
 
 
-    public long[] benchmarkInsert(T[][] values) {
+    public Long[] benchmarkInsert(T[][] values) {
         return benchmarkFunction(values, (T t) -> benchmarkee.insert(t));
     }
 
-    public long[] benchmarkDelete(T[][] values) {
+    public Long[] benchmarkDelete(T[][] values) {
         return benchmarkFunction(values, (T t) -> benchmarkee.delete(t));
     }
 
-    public long[] benchmarkSearch(T[][] values) {
+    public Long[] benchmarkSearch(T[][] values) {
         return benchmarkFunction(values, (T t) -> benchmarkee.search(t));
     }
 }

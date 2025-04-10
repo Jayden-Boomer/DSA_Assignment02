@@ -123,10 +123,10 @@ public class HashTable<K, V> implements BaseOperations<V> {
     }
 
     public HashTable(CollisionBehavior collisionBehavior, Function<V, K> valueToKeyConverter) {
-        this(collisionBehavior, valueToKeyConverter, -1, -1);
-        if(collisionBehavior == CollisionBehavior.QuadraticProbing) {
-            throw new Error("You are attempting to use quadratic probing without initializing the quadratic coefficients. Use the other constructor");
-        }
+        this(collisionBehavior, valueToKeyConverter, 0, 0);
+//        if(collisionBehavior == CollisionBehavior.QuadraticProbing) {
+//            throw new Error("You are attempting to use quadratic probing without initializing the quadratic coefficients. Use the other constructor");
+//        }
     }
 
     // Hash function to calculate the index from the key
@@ -317,6 +317,10 @@ public class HashTable<K, V> implements BaseOperations<V> {
         Bucket<K, V>[] oldTable = table; // Store the old table
         table = new Bucket[nextPrime(table.length * 2)]; // Create a new table with double the capacity
         size = 0; // Reset the size as we will reinsert the elements
+
+        for (int i = 0; i < table.length; i++) {
+            table[i] = new Bucket<>();
+        }
 
         // Reinsert all elements from the old table into the new table
         for (Bucket<K, V> oldBucket : oldTable) {

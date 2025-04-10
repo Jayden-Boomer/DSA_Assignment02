@@ -5,8 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="061e1f16-fd2b-4df8-8806-72001b3c3204" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/Main/DataTable.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main/Benchmarker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/Benchmarker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main/HashTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/HashTable.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -50,6 +52,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Application.Main.executor": "Run",
     "Downloaded.Files.Path.Enabled": "false",
     "JUnit.TestAVLTree.executor": "Run",
     "JUnit.TestAVLTree.testInsertionMaintainsBSTProperty.executor": "Run",
@@ -74,7 +77,20 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="JUnit.TestHashTable">
+  <component name="RunManager" selected="Application.Main">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Main.Main" />
+      <module name="DSA_Assignment02" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="Main.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="TestHashTable" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="DSA_Assignment02" />
       <extension name="coverage">
@@ -138,28 +154,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TestSplayTree" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="DSA_Assignment02" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="UnitTests.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="UnitTests" />
-      <option name="MAIN_CLASS_NAME" value="UnitTests.TestSplayTree" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Main" />
         <item itemvalue="JUnit.TestHashTable" />
         <item itemvalue="JUnit.TestHashTable.testCollisions_QuadraticProbing" />
         <item itemvalue="JUnit.TestHashTable.testDelete_Chaining" />
         <item itemvalue="JUnit.TestHashTable.testUpdateValue_Chaining" />
-        <item itemvalue="JUnit.TestSplayTree" />
       </list>
     </recent_temporary>
   </component>
@@ -184,7 +185,7 @@
       <workItem from="1743719382345" duration="3686000" />
       <workItem from="1744069982556" duration="2000" />
       <workItem from="1744138040476" duration="11498000" />
-      <workItem from="1744206005934" duration="41045000" />
+      <workItem from="1744206005934" duration="48282000" />
     </task>
     <servers />
   </component>
