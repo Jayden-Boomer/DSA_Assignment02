@@ -77,7 +77,7 @@ public class TestHashTable {
         probingTable.insert(0);
         probingTable.insert(20); // collides with 0
         probingTable.insert(40); // likely collides again
-        
+
         assertEquals(0, probingTable.search(0));
         assertEquals(20, probingTable.search(20));
         assertEquals(40, probingTable.search(40));
