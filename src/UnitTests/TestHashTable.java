@@ -75,13 +75,9 @@ public class TestHashTable {
     @Test
     public void testCollisions_QuadraticProbing() {
         probingTable.insert(0);
-        probingTable.printTable();
-
         probingTable.insert(20); // collides with 0
-        probingTable.printTable();
-
         probingTable.insert(40); // likely collides again
-        probingTable.printTable();
+        
         assertEquals(0, probingTable.search(0));
         assertEquals(20, probingTable.search(20));
         assertEquals(40, probingTable.search(40));

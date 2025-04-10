@@ -147,8 +147,6 @@ public class HashTable<K, V> implements BaseOperations<V> {
             newIndex = (index + c1 * i + c2 * i * i) % table.length; // Quadratic probing formula
             entry = table[newIndex].getFirst();
 
-            System.out.println("Probing at i=" + i + ", index=" + newIndex);
-            System.out.println("Found key: " + (entry == null ? "null" : entry.key));
             // If spot is empty, return it
             if (entry == null) return (forInsert && firstDeletedSlot != -1) ? firstDeletedSlot : newIndex;
 
