@@ -47,32 +47,33 @@ public class Main {
 
         // create the table for search performance
         DataTable searchTable = new DataTable("Search Performance Comparison (Time in milliseconds)", colHeaders, rowHeaders);
-        searchTable.AddRow(avlTreeBenchmarker.benchmarkInsert(datasets));
-        searchTable.AddRow(splayTreeBenchmarker.benchmarkInsert(datasets));
-        searchTable.AddRow(chainingHashTableBenchmarker.benchmarkInsert(datasets));
-        searchTable.AddRow(probingHashTableBenchmarker.benchmarkInsert(datasets));
+        searchTable.AddRow(avlTreeBenchmarker.benchmarkSearch(datasets));
+        searchTable.AddRow(splayTreeBenchmarker.benchmarkSearch(datasets));
+        searchTable.AddRow(chainingHashTableBenchmarker.benchmarkSearch(datasets));
+        searchTable.AddRow(probingHashTableBenchmarker.benchmarkSearch(datasets));
 
         // create the table for search performance
         DataTable deletionTable = new DataTable("Deletion Performance Comparison (Time in milliseconds)", colHeaders, rowHeaders);
-        deletionTable.AddRow(avlTreeBenchmarker.benchmarkInsert(datasets));
-        deletionTable.AddRow(splayTreeBenchmarker.benchmarkInsert(datasets));
-        deletionTable.AddRow(chainingHashTableBenchmarker.benchmarkInsert(datasets));
-        deletionTable.AddRow(probingHashTableBenchmarker.benchmarkInsert(datasets));
+        deletionTable.AddRow(avlTreeBenchmarker.benchmarkDelete(datasets));
+        deletionTable.AddRow(splayTreeBenchmarker.benchmarkDelete(datasets));
+        deletionTable.AddRow(chainingHashTableBenchmarker.benchmarkDelete(datasets));
+        deletionTable.AddRow(probingHashTableBenchmarker.benchmarkDelete(datasets));
 
 
         // print the tables
-        insertionTable.print(false);
+        insertionTable.print();
         System.out.println("\n");
-        searchTable.print(false);
+        searchTable.print();
         System.out.println("\n");
-        deletionTable.print(false);
+        deletionTable.print();
 
+        System.out.println("\n\n");
 
         // print the tables in csv format
-        insertionTable.print(true);
+        insertionTable.printCSV();
         System.out.println("\n");
-        searchTable.print(true);
+        searchTable.printCSV();
         System.out.println("\n");
-        deletionTable.print(true);
+        deletionTable.printCSV();
     }
 }

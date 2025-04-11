@@ -21,7 +21,7 @@ public class DataTable {
         dataRows.add(values);
     }
 
-    public void print(boolean asCSV) {
+    public void print() {
         int[] columnWidths = new int[colHeaders.length];
         for (int i = 0; i < colHeaders.length; i++) {
             columnWidths[i] = colHeaders[i].length();
@@ -38,7 +38,7 @@ public class DataTable {
 
         // Print header
         System.out.println(tableName);
-        printRow(colHeaders, columnWidths, asCSV);
+        printRow(colHeaders, columnWidths);
 
         // Print data rows
         for (int i = 0; i < dataRows.size(); i++) {
@@ -48,24 +48,45 @@ public class DataTable {
             for (int j = 0; j < dataRow.length; j++) {
                 rowAsStrings[j+1] = formatTime(dataRow[j]);
             }
-            printRow(rowAsStrings, columnWidths, asCSV);
+            printRow(rowAsStrings, columnWidths);
         }
     }
 
-    private void printCSV() {
-        
+    public void printCSV() {
+        System.out.println("\""+tableName+"\"");
+        String[] formattedHeaders = new String[colHeaders.length];
+        for (int i = 0; i < colHeaders.length; i++) {
+            formattedHeaders[i] = "\"" + colHeaders[i] + "\"";
+        }
+        printRow(formattedHeaders);
+
+        // Print data rows
+        for (int i = 0; i < dataRows.size(); i++) {
+            String[] rowAsStrings = new String[dataRows.get(i).length+1];
+            long[] dataRow = dataRows.get(i);
+            rowAsStrings[0] = "\""+rowHeaders[i]+"\"";
+            for (int j = 0; j < dataRow.length; j++) {
+                rowAsStrings[j+1] = ""+dataRow[j];
+            }
+            printRow(rowAsStrings);
+        }
     }
 
-
-
-    private void printRow(String[] row, int[] columnWidths, boolean asCSV) {
+    private void printRow(String[] row) {
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < row.length; i++) {
-            if (asCSV)
-                System.out.print(row[i] + ",");
-            else
-                System.out.printf("%-" + columnWidths[i] + "s     ", row[i]);
+            sb.append(row[i]).append(",");
         }
-        System.out.println();
+        System.out.println(sb.deleteCharAt(sb.length()-1));
+    }
+
+
+    private void printRow(String[] row, int[] columnWidths) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < row.length; i++) {
+            sb.append(String.format("%-" + columnWidths[i] + "s     ", row[i]));
+        }
+        System.out.println(sb);
     }
 
     private void printSeparator(int[] columnWidths) {
@@ -82,12 +103,13 @@ public class DataTable {
         DecimalFormat df = new DecimalFormat("#.#");
         if (nanoseconds >= 1_000_000_000) {
             double seconds = nanoseconds / 1_000_000_000.0;
-            return df.format(seconds) + " s";//String.format("%.3f s", seconds);
+            return df.format(seconds) + " s";
         } else if (nanoseconds >= 1_000_000) {
-            long milliseconds = nanoseconds / 1_000_000;
-            return df.format(milliseconds) + " ms";//String.format("%3d ms", milliseconds);
+            long milliseconds = Math.round(nanoseconds / 1_000_000.0);
+            return df.format(milliseconds) + " ms";
         } else {
-            return nanoseconds + " ns";
+            double milliseconds = nanoseconds / 1_000_000.0;
+            return df.format(milliseconds) + " ms";
         }
     }
 
