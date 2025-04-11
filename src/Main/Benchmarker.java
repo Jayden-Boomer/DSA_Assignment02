@@ -25,8 +25,8 @@ public class Benchmarker<T> {
         return endTime - startTime;
     }
 
-    private Long[] benchmarkFunction(T[][] valueArrays, Consumer<T> fn) {
-        Long[] times = new Long[valueArrays.length];
+    private long[] benchmarkFunction(T[][] valueArrays, Consumer<T> fn) {
+        long[] times = new long[valueArrays.length];
         for (int i = 0; i < valueArrays.length; i++) {
             times[i] = benchmarkFunction(valueArrays[i], fn);
         }
@@ -35,15 +35,15 @@ public class Benchmarker<T> {
     }
 
 
-    public Long[] benchmarkInsert(T[][] values) {
+    public long[] benchmarkInsert(T[][] values) {
         return benchmarkFunction(values, (T t) -> benchmarkee.insert(t));
     }
 
-    public Long[] benchmarkDelete(T[][] values) {
+    public long[] benchmarkDelete(T[][] values) {
         return benchmarkFunction(values, (T t) -> benchmarkee.delete(t));
     }
 
-    public Long[] benchmarkSearch(T[][] values) {
+    public long[] benchmarkSearch(T[][] values) {
         return benchmarkFunction(values, (T t) -> benchmarkee.search(t));
     }
 }

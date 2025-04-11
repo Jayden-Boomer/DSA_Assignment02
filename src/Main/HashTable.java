@@ -123,7 +123,7 @@ public class HashTable<K, V> implements BaseOperations<V> {
     }
 
     public HashTable(CollisionBehavior collisionBehavior, Function<V, K> valueToKeyConverter) {
-        this(collisionBehavior, valueToKeyConverter, 0, 0);
+        this(collisionBehavior, valueToKeyConverter, 0, 1);
 //        if(collisionBehavior == CollisionBehavior.QuadraticProbing) {
 //            throw new Error("You are attempting to use quadratic probing without initializing the quadratic coefficients. Use the other constructor");
 //        }
@@ -292,8 +292,6 @@ public class HashTable<K, V> implements BaseOperations<V> {
         }
     }
 
-
-
     @Override
     public boolean insert(V element) {
         K key = valueToKeyConverter.apply(element); // Extract the key from the element
@@ -311,6 +309,9 @@ public class HashTable<K, V> implements BaseOperations<V> {
         K key = valueToKeyConverter.apply(value); // Extract the key from the element
         return find(key);
     }
+
+    // helpers
+
 
     // Resize the table when the load factor exceeds the threshold
     private void resize() {
