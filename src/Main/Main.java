@@ -10,6 +10,8 @@ public class Main {
     public static final int MEDIUM_N = 10_000;
     public static final int LARGE_N  = 100_000;
     public static final int ITERATIONS_PER_DATASET = 1; //for some reason, running more trials makes the averages decrease (I suspect the dataset is being cached or something)
+    public static final long CSV_TIME_FACTOR = 1_000_000;
+    public static final long CSV_BYTE_FACTOR = 1;//1_000;
 
     public static DecimalFormat df = new DecimalFormat("#,###");
     public static final String[] colHeaders = new String[] {
@@ -72,25 +74,25 @@ public class Main {
 
         // create the table for insertion performance
         DataTable insertionMemTable = new DataTable("Insertion Performance Comparison (Memory in Kilobytes)", colHeaders, rowHeaders);
-        insertionMemTable.AddRow(avlTreeBenchmarker.benchmarkInsertTime(datasets, ITERATIONS_PER_DATASET));
-        insertionMemTable.AddRow(splayTreeBenchmarker.benchmarkInsertTime(datasets, ITERATIONS_PER_DATASET));
-        insertionMemTable.AddRow(chainingHashTableBenchmarker.benchmarkInsertTime(datasets, ITERATIONS_PER_DATASET));
-        insertionMemTable.AddRow(probingHashTableBenchmarker.benchmarkInsertTime(datasets, ITERATIONS_PER_DATASET));
+        insertionMemTable.AddRow(avlTreeBenchmarker.benchmarkInsertMemory(datasets, ITERATIONS_PER_DATASET));
+        insertionMemTable.AddRow(splayTreeBenchmarker.benchmarkInsertMemory(datasets, ITERATIONS_PER_DATASET));
+        insertionMemTable.AddRow(chainingHashTableBenchmarker.benchmarkInsertMemory(datasets, ITERATIONS_PER_DATASET));
+        insertionMemTable.AddRow(probingHashTableBenchmarker.benchmarkInsertMemory(datasets, ITERATIONS_PER_DATASET));
 
 
         // create the table for search performance
         DataTable searchMemTable = new DataTable("Search Performance Comparison (Memory in Kilobytes)", colHeaders, rowHeaders);
-        searchMemTable.AddRow(avlTreeBenchmarker.benchmarkSearchTime(datasets, ITERATIONS_PER_DATASET));
-        searchMemTable.AddRow(splayTreeBenchmarker.benchmarkSearchTime(datasets, ITERATIONS_PER_DATASET));
-        searchMemTable.AddRow(chainingHashTableBenchmarker.benchmarkSearchTime(datasets, ITERATIONS_PER_DATASET));
-        searchMemTable.AddRow(probingHashTableBenchmarker.benchmarkSearchTime(datasets, ITERATIONS_PER_DATASET));
+        searchMemTable.AddRow(avlTreeBenchmarker.benchmarkSearchMemory(datasets, ITERATIONS_PER_DATASET));
+        searchMemTable.AddRow(splayTreeBenchmarker.benchmarkSearchMemory(datasets, ITERATIONS_PER_DATASET));
+        searchMemTable.AddRow(chainingHashTableBenchmarker.benchmarkSearchMemory(datasets, ITERATIONS_PER_DATASET));
+        searchMemTable.AddRow(probingHashTableBenchmarker.benchmarkSearchMemory(datasets, ITERATIONS_PER_DATASET));
 
         // create the table for search performance
         DataTable deletionMemTable = new DataTable("Deletion Performance Comparison (Memory in Kilobytes)", colHeaders, rowHeaders);
-        deletionMemTable.AddRow(avlTreeBenchmarker.benchmarkDeleteTime(datasets, ITERATIONS_PER_DATASET));
-        deletionMemTable.AddRow(splayTreeBenchmarker.benchmarkDeleteTime(datasets, ITERATIONS_PER_DATASET));
-        deletionMemTable.AddRow(chainingHashTableBenchmarker.benchmarkDeleteTime(datasets, ITERATIONS_PER_DATASET));
-        deletionMemTable.AddRow(probingHashTableBenchmarker.benchmarkDeleteTime(datasets, ITERATIONS_PER_DATASET));
+        deletionMemTable.AddRow(avlTreeBenchmarker.benchmarkDeleteMemory(datasets, ITERATIONS_PER_DATASET));
+        deletionMemTable.AddRow(splayTreeBenchmarker.benchmarkDeleteMemory(datasets, ITERATIONS_PER_DATASET));
+        deletionMemTable.AddRow(chainingHashTableBenchmarker.benchmarkDeleteMemory(datasets, ITERATIONS_PER_DATASET));
+        deletionMemTable.AddRow(probingHashTableBenchmarker.benchmarkDeleteMemory(datasets, ITERATIONS_PER_DATASET));
 
 
         // print the tables
@@ -102,19 +104,19 @@ public class Main {
         System.out.println("\n\n");
 
         // print the tables in csv format
-        insertionTimesTable.printCSV();
+        insertionTimesTable.printCSV(CSV_TIME_FACTOR);
         System.out.println("\n");
-        searchTimesTable.printCSV();
+        searchTimesTable.printCSV(CSV_TIME_FACTOR);
         System.out.println("\n");
-        deletionTimesTable.printCSV();
+        deletionTimesTable.printCSV(CSV_TIME_FACTOR);
         System.out.println("\n");
 
         // print the tables in csv format
-        insertionMemTable.printCSV();
+        insertionMemTable.printCSV(CSV_BYTE_FACTOR);
         System.out.println("\n");
-        searchMemTable.printCSV();
+        searchMemTable.printCSV(CSV_BYTE_FACTOR);
         System.out.println("\n");
-        deletionMemTable.printCSV();
+        deletionMemTable.printCSV(CSV_BYTE_FACTOR);
         System.out.println("\n\n");
 
     }

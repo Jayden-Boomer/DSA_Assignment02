@@ -4,26 +4,6 @@ import java.util.function.Consumer;
 
 public class Benchmarker<T> {
 
-    public static class BenchmarkResults {
-        public long[] times;
-        public long[] memoryUsages;
-
-        BenchmarkResults(long[] times, long[] memUsages) {
-            this.times = times;
-            this.memoryUsages = memUsages;
-        }
-    }
-
-    private static class BenchmarkResult {
-        public long nanosecondsElapsed;
-        public long bytesUsed;
-
-        BenchmarkResult(long nanosecondsElapsed, long bytesUsed) {
-            this.nanosecondsElapsed = nanosecondsElapsed;
-            this.bytesUsed = bytesUsed;
-        }
-    }
-
     private BaseOperations<T> benchmarkee;
 
     public Benchmarker(BaseOperations<T> benchmarkee) {
@@ -77,18 +57,26 @@ public class Benchmarker<T> {
 
         return sum/numberOfIterations;
     }
-    
+
+    private void garbageCollect() {
+        System.gc();
+        try {
+            Thread.sleep(50);
+        } catch (InterruptedException e) {
+            //this will never happen
+        }
+    }
 
     private long benchmarkOperationMemory(T[] dataset, Consumer<T> fn) {
         long startMemory, endMemory;
 
-        System.gc(); // Request garbage collection
+        garbageCollect(); // Request garbage collection
         Runtime runtime = Runtime.getRuntime();
         startMemory = runtime.totalMemory() - runtime.freeMemory();
         for (T value : dataset) {
             fn.accept(value);
         }
-        System.gc(); // request GC again
+//        garbageCollect(); // request GC again
         endMemory = runtime.totalMemory() - runtime.freeMemory();
 
         return endMemory - startMemory;

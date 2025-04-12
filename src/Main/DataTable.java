@@ -67,7 +67,7 @@ public class DataTable {
         }
     }
 
-    public void printCSV() {
+    public void printCSV(long divideDataBy) {
         System.out.println("\""+tableName+"\"");
         String[] formattedHeaders = new String[colHeaders.length];
         for (int i = 0; i < colHeaders.length; i++) {
@@ -81,7 +81,7 @@ public class DataTable {
             long[] dataRow = dataRows.get(i);
             rowAsStrings[0] = "\""+rowHeaders[i]+"\"";
             for (int j = 0; j < dataRow.length; j++) {
-                rowAsStrings[j+1] = ""+dataRow[j];
+                rowAsStrings[j+1] = ""+((double)dataRow[j]/divideDataBy);
             }
             printRow(rowAsStrings);
         }
@@ -103,17 +103,7 @@ public class DataTable {
         }
         System.out.println(sb);
     }
-
-    private void printSeparator(int[] columnWidths) {
-        for (int width : columnWidths) {
-            System.out.print("+");
-            for (int i = 0; i < width + 2; i++) {
-                System.out.print("-");
-            }
-        }
-        System.out.println("+");
-    }
-
+    
     private static String formatMemory(long bytes) {
         final long KB = 1024;
         final long MB = KB * 1024;
@@ -130,7 +120,6 @@ public class DataTable {
     }
 
     private static String formatTime(long nanoseconds) {
-        final long MICRO = 1_000;
         final long MILLI = 1_000_000;
         final long SEC   = 1_000_000_000;
         DecimalFormat df = new DecimalFormat("#.#");
@@ -143,8 +132,6 @@ public class DataTable {
         } else {
             double milliseconds = (double)nanoseconds / MILLI;
             return df.format(milliseconds) + " ms";
-//            double microseconds = (double) nanoseconds / MICRO;
-//            return df.format(microseconds) + " µs";
         }
     }
 
