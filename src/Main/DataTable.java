@@ -13,7 +13,7 @@ public class DataTable {
     private final String tableName;
     private final String[] colHeaders;
     private final String[] rowHeaders;
-    private ArrayList<long[]> dataRows;
+    private final ArrayList<long[]> dataRows;
 
     public DataTable(String tableName, String[] colHeaders, String[] rowHeaders) {
         this.tableName = tableName;
@@ -103,7 +103,7 @@ public class DataTable {
         }
         System.out.println(sb);
     }
-    
+
     private static String formatMemory(long bytes) {
         final long KB = 1024;
         final long MB = KB * 1024;
