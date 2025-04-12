@@ -23,7 +23,7 @@ Jayden Boomer, jab220009, CS-3345.501
 
 > ##### Deletion Performance Comparison (Time in milliseconds):
 | Data Structure                    | 1,000 Elements    | 10,000 Elements    | 100,000 Elements    |
-| :-------------------------------: | :---------------: | :----------------- | :-----------------: |   
+| :-------------------------------: | :---------------: | :----------------: | :-----------------: |   
 | AVL Tree                          | 1 ms              | 3 ms               | 31 ms               |
 | Splay Tree                        | 0.7 ms            | 2 ms               | 34 ms               |
 | Hash Table (Chaining)             | 0.3 ms            | 2 ms               | 13 ms               |
@@ -37,7 +37,7 @@ Jayden Boomer, jab220009, CS-3345.501
 
 > ##### Insertion Performance Comparison (Memory in Kilobytes):
 | Data Structure                    | 1,000 Elements    | 10,000 Elements    | 100,000 Elements    |
-| :-------------------------------: | :---------------: | :----------------- | :-----------------: |   
+| :-------------------------------: | :---------------: | :----------------: | :-----------------: |   
 | AVL Tree                          | 0 B               | 597 KB             | 1.7 MB              |
 | Splay Tree                        | 597 KB            | 597 KB             | 1.2 MB              |
 | Hash Table (Chaining)             | 597 KB            | 597 KB             | 2.3 MB              |
