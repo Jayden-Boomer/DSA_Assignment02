@@ -12,7 +12,6 @@ Jayden Boomer, jab220009, CS-3345.501
 | Hash Table (Chaining)             | 6 ms              | 8 ms               | 42 ms               |
 | Hash Table (Quadratic Probing)    | 0.8 ms            | 3 ms               | 68 ms               |
 
-
 > ##### Search Performance Comparison (Time in milliseconds):
 | Data Structure                    | 1,000 Elements    | 10,000 Elements    | 100,000 Elements    |
 | :-------------------------------: | :---------------: | :----------------: | :-----------------: |   
@@ -30,6 +29,9 @@ Jayden Boomer, jab220009, CS-3345.501
 | Hash Table (Chaining)             | 0.3 ms            | 2 ms               | 13 ms               |
 | Hash Table (Quadratic Probing)    | 2 ms              | 2 ms               | 22 ms               |
 
+![alt text](https://github.com/Jayden-Boomer/DSA_Assignment02/blob/main/Insertion%20Performance%20Comparison.png?raw=true)
+![alt text](https://github.com/Jayden-Boomer/DSA_Assignment02/blob/main/Search%20Performance%20Comparison.png?raw=true)
+![alt text](https://github.com/Jayden-Boomer/DSA_Assignment02/blob/main/Deletion%20Performance%20Comparison.png?raw=true)
 ---
 #### Memory Usages:
 
@@ -59,3 +61,4 @@ Jayden Boomer, jab220009, CS-3345.501
 | Hash Table (Chaining)             | 0 B               | 0 B                | 0 B                 |
 | Hash Table (Quadratic Probing)    | 0 B               | 0 B                | 0 B                 |   
 
+![alt text](https://github.com/Jayden-Boomer/DSA_Assignment02/blob/main/Insertion%20Performance%20Comparison%20Memory.png?raw=true)
