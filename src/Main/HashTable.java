@@ -294,7 +294,9 @@ public class HashTable<K, V> implements BaseOperations<V> {
 
     @Override
     public boolean insert(V element) {
+        if (element == null) return false;
         K key = valueToKeyConverter.apply(element); // Extract the key from the element
+       
         return put(key, element) >= 0;
     }
 

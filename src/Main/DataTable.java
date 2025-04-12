@@ -5,6 +5,11 @@ import java.util.ArrayList;
 
 public class DataTable {
 
+    public enum Format {
+        TIME,
+        CSV,
+        MEMORY
+    }
     private final String tableName;
     private final String[] colHeaders;
     private final String[] rowHeaders;
@@ -21,7 +26,7 @@ public class DataTable {
         dataRows.add(values);
     }
 
-    public void print() {
+    public void print(Format format) {
         int[] columnWidths = new int[colHeaders.length];
         for (int i = 0; i < colHeaders.length; i++) {
             columnWidths[i] = colHeaders[i].length();
@@ -46,7 +51,17 @@ public class DataTable {
             long[] dataRow = dataRows.get(i);
             rowAsStrings[0] = rowHeaders[i];
             for (int j = 0; j < dataRow.length; j++) {
-                rowAsStrings[j+1] = formatTime(dataRow[j]);
+                switch (format) {
+                    case TIME:
+                        rowAsStrings[j+1] = formatTime(dataRow[j]);
+                        break;
+                    case MEMORY:
+                        rowAsStrings[j+1] = formatMemory(dataRow[j]);
+                        break;
+                    case CSV: default:
+                        rowAsStrings[j+1] =""+dataRow[j];
+                        break;
+                }
             }
             printRow(rowAsStrings, columnWidths);
         }
@@ -99,17 +114,37 @@ public class DataTable {
         System.out.println("+");
     }
 
-    public static String formatTime(long nanoseconds) {
+    private static String formatMemory(long bytes) {
+        final long KB = 1024;
+        final long MB = KB * 1024;
+        final long GB = MB * 1024;
+
+        if (bytes >= GB)
+            return String.format("%.1f GB",  (double) bytes / GB);
+        else if (bytes >= MB)
+            return String.format("%.1f MB",  (double) bytes / MB);
+        else if (bytes >= KB)
+            return String.format("%d KB",   bytes / KB);
+        else
+            return bytes + " B";
+    }
+
+    private static String formatTime(long nanoseconds) {
+        final long MICRO = 1_000;
+        final long MILLI = 1_000_000;
+        final long SEC   = 1_000_000_000;
         DecimalFormat df = new DecimalFormat("#.#");
-        if (nanoseconds >= 1_000_000_000) {
-            double seconds = nanoseconds / 1_000_000_000.0;
+        if (nanoseconds >= SEC) {
+            double seconds = (double) nanoseconds / SEC;
             return df.format(seconds) + " s";
-        } else if (nanoseconds >= 1_000_000) {
-            long milliseconds = Math.round(nanoseconds / 1_000_000.0);
+        } else if (nanoseconds >= MILLI) {
+            long milliseconds = Math.round((double)nanoseconds / MILLI);
             return df.format(milliseconds) + " ms";
         } else {
-            double milliseconds = nanoseconds / 1_000_000.0;
+            double milliseconds = (double)nanoseconds / MILLI;
             return df.format(milliseconds) + " ms";
+//            double microseconds = (double) nanoseconds / MICRO;
+//            return df.format(microseconds) + " µs";
         }
     }
 
