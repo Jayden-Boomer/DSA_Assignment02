@@ -1,6 +1,6 @@
-##Performance Analysis Report:
+##Performance Analysis Report:##
 
-####Jayden Boomer, jab220009, CS-3345.501
+####Jayden Boomer, jab220009, CS-3345.501####
 
 Insertion Performance Comparison (Time in milliseconds)
 Data Structure                     1,000 Elements     10,000 Elements     100,000 Elements     
