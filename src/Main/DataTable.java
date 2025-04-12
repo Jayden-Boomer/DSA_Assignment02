@@ -89,8 +89,8 @@ public class DataTable {
 
     private void printRow(String[] row) {
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < row.length; i++) {
-            sb.append(row[i]).append(",");
+        for (String s : row) {
+            sb.append(s).append(",");
         }
         System.out.println(sb.deleteCharAt(sb.length()-1));
     }

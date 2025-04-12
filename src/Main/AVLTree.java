@@ -2,263 +2,306 @@ package Main;
 
 public class AVLTree<T extends Comparable<T>> implements BaseOperations<T> {
 
+    /**
+     * Represents a node in the AVL tree.
+     */
     protected class AVLNode {
+        /** The data held by the node. */
         public T data;
+
+        /** The height of the node in the AVL tree. */
         int height;
+
+        /** The left child of this node. */
         public AVLNode left;
+
+        /** The right child of this node. */
         public AVLNode right;
 
+        /**
+         * Constructs a new AVLNode with the specified data.
+         *
+         * @param data The data to store in the node.
+         */
         public AVLNode(T data) {
             this.data = data;
-            this.height = 1;
+            this.height = 1; // New nodes are initially leaf nodes
         }
     }
 
+    /** The root node of the AVL tree. */
     private AVLNode root;
 
+    /**
+     * Returns the height of a given node.
+     *
+     * @param node The node whose height is to be calculated.
+     * @return The height of the node, or 0 if the node is null.
+     */
     private int height(AVLNode node) {
         return node == null ? 0 : node.height;
     }
 
+    /**
+     * Calculates the balance factor of a node.
+     *
+     * @param node The node to calculate the balance factor for.
+     * @return The balance factor (left height - right height).
+     */
     private int balanceFactor(AVLNode node) {
         return node == null ? 0 : height(node.left) - height(node.right);
     }
 
+    /**
+     * Updates the height of a given node based on its children's heights.
+     *
+     * @param node The node whose height is to be updated.
+     */
     private void updateHeight(AVLNode node) {
         node.height = 1 + Math.max(height(node.left), height(node.right));
     }
 
+    /**
+     * Performs a right rotation on the subtree rooted at the given parent node.
+     *
+     * @param parent The root of the subtree to rotate.
+     * @return The new root of the rotated subtree.
+     */
     private AVLNode rightRotate(AVLNode parent) {
-        // pivot is the left child of parent — it will become the new root of the subtree
         AVLNode pivot = parent.left;
-
-        // store the right subtree of the pivot
         AVLNode rightChildOfPivot = pivot.right;
 
-        // Perform rotation
-        pivot.right = parent;               // parent becomes the right child of pivot
-        parent.left = rightChildOfPivot;    // the right child of pivot becomes the left child of parent
+        pivot.right = parent;
+        parent.left = rightChildOfPivot;
 
-        //update the heights of the nodes
         updateHeight(parent);
         updateHeight(pivot);
 
-        // Return new root
         return pivot;
     }
 
+    /**
+     * Performs a left rotation on the subtree rooted at the given parent node.
+     *
+     * @param parent The root of the subtree to rotate.
+     * @return The new root of the rotated subtree.
+     */
     private AVLNode leftRotate(AVLNode parent) {
-        // pivot is the right child of parent — it will become the new root of the subtree
         AVLNode pivot = parent.right;
-
-        // store the left subtree of the pivot
         AVLNode leftChildOfPivot = pivot.left;
 
-        // Perform rotation
-        pivot.left = parent;                // parent becomes the left child of pivot
-        parent.right = leftChildOfPivot;    // the left child of pivot becomes the right child of parent
+        pivot.left = parent;
+        parent.right = leftChildOfPivot;
 
-        //update the heights of the nodes
         updateHeight(parent);
         updateHeight(pivot);
 
-        // Return new root
         return pivot;
     }
 
+    /**
+     * Balances the subtree rooted at the given node if it has become unbalanced.
+     *
+     * @param node The root of the subtree to balance.
+     * @return The new root of the balanced subtree.
+     */
     private AVLNode balance(AVLNode node) {
-        int balanceFactor = balanceFactor(node);
+        int balanceFactor = balanceFactor(node); // Calculate the balance factor of the node
 
-        if (balanceFactor > 1) { // The given node is left-heavy
-            // left-rotate the left child if it is also left-heavy
-            if(balanceFactor(node.left) < 0)
+        if (balanceFactor > 1) { // The node is left-heavy
+            // if the left child is right-heavy, perform left rotation on it
+            if (balanceFactor(node.left) < 0)
                 node.left = leftRotate(node.left);
 
-            // right rotate the given node
-            return rightRotate(node);
-
-        } else if (balanceFactor < -1) { // The given node is right-heavy
-            // right-rotate the right child if it is also right-heavy
-            if(balanceFactor(node.right) > 0)
+            return rightRotate(node); // Perform right rotation on the node
+        } else if (balanceFactor < -1) { // The node is right-heavy
+            // if the right child is left-heavy, perform right rotation on it
+            if (balanceFactor(node.right) > 0)
                 node.right = rightRotate(node.right);
 
-            // right rotate the given node
-            return leftRotate(node);
+            return leftRotate(node); // Perform left rotation on the node
         }
 
-        return node; // Return the balanced node
+        // Node is already balanced
+        return node;
     }
 
-//    private AVLNode balance(AVLNode node) {
-//        int balanceFactor = balanceFactor(node);
-//
-//        // Left Heavy (Right Rotation)
-//        if (balanceFactor > 1 && balanceFactor(node.left) >= 0) {
-//            return rightRotate(node);
-//        }
-//
-//        // Left-Right Case (Left Rotate Left Child, then Right Rotate)
-//        if (balanceFactor > 1 && balanceFactor(node.left) < 0) {
-//            node.left = leftRotate(node.left);
-//            return rightRotate(node);
-//        }
-//
-//        // Right Heavy (Left Rotation)
-//        if (balanceFactor < -1 && balanceFactor(node.right) <= 0) {
-//            return leftRotate(node);
-//        }
-//
-//        // Right-Left Case (Right Rotate Right Child, then Left Rotate)
-//        if (balanceFactor < -1 && balanceFactor(node.right) > 0) {
-//            node.right = rightRotate(node.right);
-//            return leftRotate(node);
-//        }
-//
-//        return node; // Return the balanced node
-//    }
-
-
+    /**
+     * Inserts a key into the AVL tree and ensures the tree remains balanced.
+     *
+     * @param currentNode The current node in the recursion.
+     * @param key The key to insert.
+     * @return The root node of the (sub)tree after insertion.
+     */
     private AVLNode insertNode(AVLNode currentNode, T key) {
-        if (currentNode == null) {
-            return new AVLNode(key);
-        }
+        // Found the correct position, create and return a new node
+        if (currentNode == null) return new AVLNode(key);
+
 
         int compareResult = key.compareTo(currentNode.data);
 
-        //no duplicates allowed, return if given key is a duplicate
-        if(compareResult == 0) return currentNode;
+        // If the key already exists, do not insert duplicates
+        if (compareResult == 0) return currentNode;
 
-        //recursively call insertNode on the child of the current node
+        // Recursively insert into the left or right subtree
         if (compareResult < 0)
             currentNode.left = insertNode(currentNode.left, key);
         else
             currentNode.right = insertNode(currentNode.right, key);
 
-        // adjust the height of the current node and check its new balance factor
-        updateHeight(currentNode);//.height = 1 + Math.max(height( currentNode.left), height( currentNode.right));
+        // Update height after insertion
+        updateHeight(currentNode);
 
+        // Rebalance the subtree if needed
         return balance(currentNode);
-//        int balance = balanceFactor(currentNode);
-//
-//        if (balance > 1 && key.compareTo(currentNode.left.data) < 0) {
-//            return rightRotate(currentNode);
-//        }
-//        if (balance < -1 && key.compareTo(currentNode.right.data) > 0) {
-//            return leftRotate(currentNode);
-//        }
-//        if (balance > 1 && key.compareTo(currentNode.left.data) > 0) {
-//            currentNode.left = leftRotate( currentNode.left);
-//            return rightRotate(currentNode);
-//        }
-//        if (balance < -1 && key.compareTo(currentNode.right.data) < 0) {
-//            currentNode.right = rightRotate( currentNode.right);
-//            return leftRotate(currentNode);
-//        }
-//
-//        return currentNode;
     }
 
+    /**
+     * Retrieves the node with the minimum value in the subtree.
+     *
+     * @param node The root of the subtree.
+     * @return The node with the smallest value in the subtree.
+     */
     private AVLNode getMinChild(AVLNode node) {
         AVLNode current = node;
         while (current.left != null) {
-            current =  current.left;
+            current = current.left;
         }
         return current;
     }
 
+
+    /**
+     * Recursively deletes a node with the given key from the AVL tree rooted at currentNode.
+     * Ensures the AVL tree remains balanced after deletion.
+     *
+     * @param currentNode The root of the current subtree.
+     * @param key The key to delete.
+     * @return The new root of the subtree after deletion and balancing.
+     */
     private AVLNode deleteNode(AVLNode currentNode, T key) {
-        if (currentNode == null) {
-            return currentNode;
-        }
+        // Base case: If the current node is null, nothing to delete
+        if (currentNode == null) return currentNode;
 
-        if (key.compareTo(currentNode.data) < 0) {
-            currentNode.left = deleteNode( currentNode.left, key);
-        } else if (key.compareTo(currentNode.data) > 0) {
-            currentNode.right = deleteNode( currentNode.right, key);
-        } else {
+        // recurse on the left or right subtree
+        if (key.compareTo(currentNode.data) < 0)
+            currentNode.left = deleteNode(currentNode.left, key);
+        else if (key.compareTo(currentNode.data) > 0)
+            currentNode.right = deleteNode(currentNode.right, key);
+        else { // found the node to delete
+            // Case 1: Node has at most one child
             if ((currentNode.left == null) || (currentNode.right == null)) {
-                AVLNode temp = (currentNode.left != null) ?  currentNode.left :  currentNode.right;
+                AVLNode temp = (currentNode.left != null) ? currentNode.left : currentNode.right;
 
+                // No child case
                 if (temp == null) {
                     temp = currentNode;
                     currentNode = null;
-                } else {
-                    currentNode = temp;
                 }
-            } else {
-                AVLNode temp = getMinChild( currentNode.right);
+                // One child case
+                else {
+                    currentNode = temp; // Replace node with its child
+                }
+            }
+            // Case 2: Node has two children
+            else {
+                // Find the inorder successor (smallest value in right subtree)
+                AVLNode temp = getMinChild(currentNode.right);
+
+                // Replace current node's data with successor's data
                 currentNode.data = temp.data;
-                currentNode.right = deleteNode( currentNode.right, temp.data);
+
+                // Delete the inorder successor
+                currentNode.right = deleteNode(currentNode.right, temp.data);
             }
         }
 
+        // If the tree had only one node, return
         if (currentNode == null) {
             return currentNode;
         }
 
-        updateHeight(currentNode);//.height = 1 + Math.max(height(currentNode.left), height(currentNode.right));
+        // Update the height of the current node
+        updateHeight(currentNode);
 
+        // Rebalance the node if necessary and return it
         return balance(currentNode);
-//        int balance = balanceFactor(root);
-//
-//        if (balance > 1 && balanceFactor(root.left) >= 0) {
-//            return rightRotate(root);
-//        }
-//        if (balance > 1 && balanceFactor(root.left) < 0) {
-//            root.left = leftRotate(root.left);
-//            return rightRotate(root);
-//        }
-//        if (balance < -1 && balanceFactor(root.right) <= 0) {
-//            return leftRotate(root);
-//        }
-//        if (balance < -1 && balanceFactor(root.right) > 0) {
-//            root.right = rightRotate(root.right);
-//            return leftRotate(root);
-//        }
-//
-//        return root;
     }
 
+    /**
+     * Performs an inorder traversal of the AVL tree, printing each node's data.
+     * Inorder traversal visits nodes in ascending order.
+     *
+     * @param node The current node in the traversal.
+     */
     private void inorderTraversal(AVLNode node) {
         if (node != null) {
-            inorderTraversal( node.left);
+            inorderTraversal(node.left);
             System.out.print(node.data + " ");
-            inorderTraversal( node.right);
+            inorderTraversal(node.right);
         }
     }
 
+    /**
+     * Recursively searches for a node with the specified key in the AVL tree.
+     *
+     * @param node The current node in the search.
+     * @param key The key to search for.
+     * @return The node containing the key, or null if not found.
+     */
     private AVLNode searchNode(AVLNode node, T key) {
         if (node == null || node.data.equals(key)) {
             return node;
         }
 
         if (key.compareTo(node.data) < 0) {
-            return searchNode( node.left, key);
+            return searchNode(node.left, key);
         }
 
-        return searchNode( node.right, key);
+        return searchNode(node.right, key);
     }
 
+    /**
+     * Inserts the specified element into the AVL tree.
+     *
+     * @param element The element to insert.
+     * @return True if the element was inserted successfully.
+     */
     @Override
     public boolean insert(T element) {
         root = insertNode(root, element);
         return root != null;
     }
 
+    /**
+     * Deletes the specified element from the AVL tree.
+     *
+     * @param element The element to delete.
+     * @return The deleted element.
+     */
     @Override
     public T delete(T element) {
         root = deleteNode(root, element);
         return element;
     }
 
+    /**
+     * Searches for the specified element in the AVL tree.
+     *
+     * @param element The element to search for.
+     * @return The element if found, or null if not found.
+     */
     @Override
     public T search(T element) {
         AVLNode node = searchNode(root, element);
         return (node != null) ? node.data : null;
     }
 
+    /**
+     * Prints the elements of the AVL tree in inorder (ascending) order.
+     */
     public void printTree() {
         inorderTraversal(root);
-//        System.out.println();
     }
+
 }
